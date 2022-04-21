@@ -1,5 +1,7 @@
 const express = require("express");
 
+const userRouter = require("./routes/userRoutes");
+
 // Start express app
 const app = express();
 
@@ -11,6 +13,9 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.get("/", (req, res) => {
   res.send("<h1>HELLO WORLD!</h1>");
 });
+
+// --------------USER ROUTES
+app.use("/api/v1/user", userRouter);
 
 app.all("*", (req, res) => {
   res.status(404).json({
