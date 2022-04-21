@@ -1,6 +1,7 @@
 const express = require("express");
 
 const userRouter = require("./routes/userRoutes");
+const otherRouter = require("./routes/otherRoutes");
 
 // Start express app
 const app = express();
@@ -16,6 +17,8 @@ app.get("/", (req, res) => {
 
 // --------------USER ROUTES
 app.use("/api/v1/user", userRouter);
+// --------------OTHER ROUTES
+app.use("/api/v1", otherRouter);
 
 app.all("*", (req, res) => {
   res.status(404).json({
