@@ -4,6 +4,7 @@ const userRouter = require("./routes/userRoutes");
 const addressRouter = require("./routes/addressRoutes");
 const productRouter = require("./routes/productRoutes");
 const wishlistRouter = require("./routes/wishlistRoutes");
+const cartRouter = require("./routes/cartRoutes");
 const otherRouter = require("./routes/otherRoutes");
 
 // Start express app
@@ -26,6 +27,8 @@ app.use("/api/v1/address", addressRouter);
 app.use("/api/v1/product", productRouter);
 // --------------WISHLIST ROUTES
 app.use("/api/v1/wishlist", wishlistRouter);
+// --------------WISHLIST ROUTES
+app.use("/api/v1/cart", cartRouter);
 // --------------OTHER ROUTES
 app.use("/api/v1", otherRouter);
 
