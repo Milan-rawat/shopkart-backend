@@ -2,6 +2,7 @@ const express = require("express");
 
 const userRouter = require("./routes/userRoutes");
 const addressRouter = require("./routes/addressRoutes");
+const productRouter = require("./routes/productRoutes");
 const otherRouter = require("./routes/otherRoutes");
 
 // Start express app
@@ -20,6 +21,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1/user", userRouter);
 // --------------ADDRESS ROUTES
 app.use("/api/v1/address", addressRouter);
+// --------------ADDRESS ROUTES
+app.use("/api/v1/product", productRouter);
 // --------------OTHER ROUTES
 app.use("/api/v1", otherRouter);
 
