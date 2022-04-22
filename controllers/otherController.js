@@ -5,9 +5,9 @@ const { throwErrorMessage } = require("../utils/errorHelper");
 
 exports.getMe = async (req, res) => {
   try {
-    let user =
-      (await Shopper.findById(req.user._id)) ||
-      (await Seller.findById(req.user._id));
+    let Model = Shopper;
+    if (req.user.userType === "SELLER") Model = Seller;
+    let user = await Model.findById(req.user._id).populate("address");
 
     res.status(200).json({
       status: true,

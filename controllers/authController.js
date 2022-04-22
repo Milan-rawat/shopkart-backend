@@ -40,7 +40,7 @@ exports.register = [
 
       if (user) {
         res.status(409).json({
-          status: "fail",
+          status: false,
           message: "Email or Phone already exists! Use different",
         });
       } else {
@@ -69,7 +69,7 @@ exports.register = [
           .send(msg)
           .then(() => {
             return res.status(200).json({
-              status: "success",
+              status: true,
               message: "A code sent to your email, please verify!",
               token: token,
               user: vUser,
@@ -82,7 +82,7 @@ exports.register = [
     } catch (err) {
       if (err.code === 11000) {
         return res.status(409).json({
-          status: "fail",
+          status: false,
           message: "Email or Phone already exists! Use different",
         });
       }
@@ -109,7 +109,7 @@ exports.login = [
       }).select("+password");
       if (!user) {
         res.status(403).json({
-          status: "fail",
+          status: false,
           message: "User not found or Incorrect Password!",
         });
       } else {
@@ -117,14 +117,14 @@ exports.login = [
         if (auth) {
           const token = createToken(user);
           res.status(200).json({
-            status: "success",
+            status: true,
             message: "Logged in successfully!",
             token: token,
             user: user,
           });
         } else {
           res.status(403).json({
-            status: "fail",
+            status: false,
             message: "User not found or Incorrect Password!",
           });
         }
@@ -166,7 +166,7 @@ exports.codeVerification = [
 
       if (!user) {
         return res.status(400).json({
-          status: "fail",
+          status: false,
           message: "Code is Invalid or has expired!",
         });
       }
@@ -179,7 +179,7 @@ exports.codeVerification = [
       const confirmedUser = await user.save();
 
       res.status(200).json({
-        status: "success",
+        status: true,
         message: "Code confirmed!",
         token: token,
         user: confirmedUser,
@@ -210,7 +210,7 @@ exports.sendVerificationCode = [
 
       if (!user) {
         return res.status(404).json({
-          status: "fail",
+          status: false,
           message: "User Not Found!",
         });
       }
@@ -230,7 +230,7 @@ exports.sendVerificationCode = [
         .send(msg)
         .then(() => {
           return res.status(200).json({
-            status: "success",
+            status: true,
             message: "A code sent to your email, please verify!",
             user: vUser,
           });
@@ -278,7 +278,7 @@ exports.resetPassword = [
 
       if (!user) {
         return res.status(400).json({
-          status: "fail",
+          status: false,
           message: "Code is Invalid or has expired!",
         });
       }
@@ -290,7 +290,7 @@ exports.resetPassword = [
       const confirmedUser = await user.save();
 
       res.status(200).json({
-        status: "success",
+        status: true,
         message: "Password successfully updated!",
         user: confirmedUser,
       });
@@ -321,7 +321,7 @@ exports.changePassword = [
 
       if (!user) {
         res.status(404).json({
-          status: "fail",
+          status: false,
           message: "User Not Found!",
         });
       } else {
@@ -331,14 +331,14 @@ exports.changePassword = [
           await user.save();
           const token = createToken(user);
           res.status(200).json({
-            status: "success",
+            status: true,
             message: "Password successfully updated",
             token: token,
             user: user,
           });
         } else {
           res.status(403).json({
-            status: "fail",
+            status: false,
             message: "Incorrect Password!",
           });
         }
