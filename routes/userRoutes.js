@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const authController = require("../controllers/authController");
+const shopperController = require("../controllers/shopperController");
 const { checkPermission } = require("../middlewares/checkPermission");
 
 const router = Router();
@@ -14,6 +15,13 @@ router.post(
   "/changePassword",
   checkPermission(["SHOPPER", "SELLER"]),
   authController.changePassword
+);
+
+// --------------SHOPPER----------------
+router.post(
+  "/order/placeOrder",
+  checkPermission(["SHOPPER"]),
+  shopperController.placeOrder
 );
 
 module.exports = router;

@@ -27,7 +27,7 @@ app.use("/api/v1/address", addressRouter);
 app.use("/api/v1/product", productRouter);
 // --------------WISHLIST ROUTES
 app.use("/api/v1/wishlist", wishlistRouter);
-// --------------WISHLIST ROUTES
+// --------------CART ROUTES
 app.use("/api/v1/cart", cartRouter);
 // --------------OTHER ROUTES
 app.use("/api/v1", otherRouter);

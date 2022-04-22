@@ -37,18 +37,6 @@ const shopperSchema = new mongoose.Schema(
         ref: "Address",
       },
     ],
-    wishlist: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
-    cart: [
-      {
-        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-        quantity: Number,
-      },
-    ],
     confirmationCode: String,
     confirmationCodeExpires: Date,
   },

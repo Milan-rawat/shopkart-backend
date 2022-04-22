@@ -1,5 +1,3 @@
-const Shopper = require("../models/ShopperModel");
-const Seller = require("../models/SellerModel");
 const Product = require("../models/ProductModel");
 
 const {
