@@ -1,13 +1,17 @@
 const Order = require("../models/OrderModel");
 
-const { throwErrorMessage } = require("../utils/errorHelper");
+const {
+  throwErrorMessage,
+  validateBody,
+  errorValidation,
+} = require("../utils/errorHelper");
 
 exports.getOrdersForMe = [
   async (req, res) => {
     try {
       if (req.query.limit > 100 || req.query.limit < 1) {
         return res.status(403).json({
-          status: "success",
+          status: true,
           message: "Limit must be between 1-100",
         });
       }
@@ -64,6 +68,56 @@ exports.getOrdersForMe = [
         perPage: limit,
         currentPage: page,
         allOrders: allOrders,
+      });
+    } catch (err) {
+      throwErrorMessage(err, res);
+    }
+  },
+];
+
+exports.changeOrderStatus = [
+  validateBody(["orderId", "toStatus"]),
+
+  async (req, res) => {
+    const errors = errorValidation(req, res);
+    if (errors) {
+      return null;
+    }
+    try {
+      const { toStatus, orderId } = req.body;
+      if (
+        toStatus !== "PENDING" &&
+        toStatus !== "ONGOING" &&
+        toStatus !== "DISPATCHED" &&
+        toStatus !== "DELIVERED" &&
+        toStatus !== "CANCELLED"
+      ) {
+        return res.status(403).json({
+          status: false,
+          message: "Not a valid status!",
+        });
+      }
+
+      const order = await Order.findOneAndUpdate(
+        {
+          $and: [{ "order.orderId": orderId }, { seller: req.user._id }],
+        },
+        {
+          "order.status": toStatus,
+        }
+      );
+
+      if (!order) {
+        return res.status(404).json({
+          status: false,
+          message: "Order Not Found!",
+        });
+      }
+
+      res.status(200).json({
+        status: true,
+        message: "Successfully cahnged the status",
+        order: order,
       });
     } catch (err) {
       throwErrorMessage(err, res);

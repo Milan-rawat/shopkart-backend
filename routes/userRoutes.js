@@ -38,4 +38,10 @@ router.get(
   sellerController.getOrdersForMe
 );
 
+router.post(
+  "/order/changeOrderStatus",
+  checkPermission(["SELLER"]),
+  sellerController.changeOrderStatus
+);
+
 module.exports = router;
