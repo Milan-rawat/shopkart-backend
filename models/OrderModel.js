@@ -10,8 +10,8 @@ const orderSchema = new mongoose.Schema(
       },
       status: {
         type: String,
-        enum: ["ONGOING", "DISPATCHED", "DELIVERED", "CANCELLED"],
-        default: "ONGOING",
+        enum: ["PENDING", "ONGOING", "DISPATCHED", "DELIVERED", "CANCELLED"],
+        default: "PENDING",
       },
       orderedAt: {
         type: Date,
@@ -40,7 +40,7 @@ const orderSchema = new mongoose.Schema(
 );
 
 orderSchema.pre(/^find/, function (next) {
-  this.populate("order.products.product");
+  this.populate("order.item.product");
   next();
 });
 

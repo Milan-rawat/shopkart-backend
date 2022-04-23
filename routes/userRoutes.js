@@ -24,4 +24,10 @@ router.post(
   shopperController.placeOrder
 );
 
+router.post(
+  "/order/getMyOrders",
+  checkPermission(["SHOPPER"]),
+  shopperController.getMyOrders
+);
+
 module.exports = router;
