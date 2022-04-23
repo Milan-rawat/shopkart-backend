@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const authController = require("../controllers/authController");
 const shopperController = require("../controllers/shopperController");
+const sellerController = require("../controllers/sellerController");
 const { checkPermission } = require("../middlewares/checkPermission");
 
 const router = Router();
@@ -24,10 +25,17 @@ router.post(
   shopperController.placeOrder
 );
 
-router.post(
+router.get(
   "/order/getMyOrders",
   checkPermission(["SHOPPER"]),
   shopperController.getMyOrders
+);
+
+// --------------SELLER----------------
+router.get(
+  "/order/getOrdersForMe",
+  checkPermission(["SELLER"]),
+  sellerController.getOrdersForMe
 );
 
 module.exports = router;
