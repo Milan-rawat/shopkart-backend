@@ -6,12 +6,68 @@ const {
   throwErrorMessage,
 } = require("../utils/errorHelper");
 
+exports.searchProducts = [
+  async (req, res) => {
+    try {
+      if (req.query.limit > 100 || req.query.limit < 1) {
+        return res.status(403).json({
+          status: false,
+          message: "Limit must be between 1-100",
+        });
+      }
+      if (!req.query.search) {
+        return res.status(403).json({
+          status: false,
+          message: "Search Keyword required to search Products",
+        });
+      }
+      let page = parseInt(req.query.page ? req.query.page : 1);
+      let limit = parseInt(req.query.limit ? req.query.limit : 10);
+      // let sort = req.query.sort ? req.query.sort : "new";
+      let search = req.query.search;
+      let skipValue = (page - 1) * limit;
+
+      // let sortBy = -1;
+      // if (sort === "old") sortBy = 1;
+
+      let allProducts, count;
+      allProducts = await Product.find({
+        $or: [
+          { productTitle: { $regex: new RegExp(search, "i") } },
+          { productDescription: { $regex: new RegExp(search, "i") } },
+        ],
+      })
+        .populate("seller")
+        .sort({ updatedAt: -1 })
+        .skip(skipValue)
+        .limit(limit);
+      count = await Product.find({
+        $or: [
+          { productTitle: { $regex: new RegExp(search, "i") } },
+          { productDescription: { $regex: new RegExp(search, "i") } },
+        ],
+      }).countDocuments();
+
+      res.status(200).json({
+        status: true,
+        totalData: count,
+        totalPage: Math.ceil(count / limit),
+        perPage: limit,
+        currentPage: page,
+        allProducts: allProducts,
+      });
+    } catch (err) {
+      throwErrorMessage(err, res);
+    }
+  },
+];
+
 exports.getMyProducts = [
   async (req, res) => {
     try {
       if (req.query.limit > 100 || req.query.limit < 1) {
         return res.status(403).json({
-          status: true,
+          status: false,
           message: "Limit must be between 1-100",
         });
       }
