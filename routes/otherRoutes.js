@@ -10,4 +10,10 @@ router.get(
   otherController.getMe
 );
 
+router.patch(
+  "/updateMe",
+  checkPermission(["SHOPPER", "SELLER"]),
+  otherController.updateMe
+);
+
 module.exports = router;
