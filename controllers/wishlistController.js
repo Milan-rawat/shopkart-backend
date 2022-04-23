@@ -83,8 +83,8 @@ exports.removeFromWishlist = [
       }
       const wishlist = await Wishlist.findOne({ shopper: req.user._id });
       if (!wishlist) {
-        return res.status(200).json({
-          status: true,
+        return res.status(403).json({
+          status: false,
           message: "This product is not present in the Wishlist!",
         });
       }

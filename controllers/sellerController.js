@@ -11,7 +11,7 @@ exports.getOrdersForMe = [
     try {
       if (req.query.limit > 100 || req.query.limit < 1) {
         return res.status(403).json({
-          status: true,
+          status: false,
           message: "Limit must be between 1-100",
         });
       }

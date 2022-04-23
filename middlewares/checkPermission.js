@@ -7,7 +7,7 @@ exports.checkPermission = (permission) => {
       await getUser(token, (user) => {
         if (user === "INVALID_TOKEN") {
           res.status(401).json({
-            status: true,
+            status: false,
             error: "Authentication Error: Invalid Token",
           });
         } else {
@@ -16,7 +16,7 @@ exports.checkPermission = (permission) => {
             next();
           } else {
             res.status(403).json({
-              status: true,
+              status: false,
               error: "Forbidden: you don't have enough access to this content",
             });
           }
@@ -24,7 +24,7 @@ exports.checkPermission = (permission) => {
       });
     } else {
       res.status(401).json({
-        status: true,
+        status: false,
         error: "Unauthorized Request",
       });
     }

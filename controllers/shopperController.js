@@ -35,7 +35,7 @@ exports.placeOrder = [
       );
       if (!cart || cart.items.length === 0) {
         return res.status(403).json({
-          status: true,
+          status: false,
           message: "Cart Empty!",
         });
       }
@@ -78,7 +78,7 @@ exports.getMyOrders = [
     try {
       if (req.query.limit > 100 || req.query.limit < 1) {
         return res.status(403).json({
-          status: true,
+          status: false,
           message: "Limit must be between 1-100",
         });
       }
