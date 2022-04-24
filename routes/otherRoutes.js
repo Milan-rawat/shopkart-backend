@@ -16,4 +16,10 @@ router.patch(
   otherController.updateMe
 );
 
+router.post(
+  "/uploadFiles",
+  checkPermission(["SHOPPER", "SELLER"]),
+  otherController.uploadFiles
+);
+
 module.exports = router;
