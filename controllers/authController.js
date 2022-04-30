@@ -36,7 +36,7 @@ exports.register = [
         Model = Seller;
       }
 
-      const user = await Model.findOne({ email: email });
+      const user = await Model.findOne({ email: email.toLowerCase() });
 
       if (user) {
         res.status(409).json({
