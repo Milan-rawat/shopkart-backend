@@ -155,7 +155,13 @@ exports.getMyProducts = [
 ];
 
 exports.addProduct = [
-  validateBody(["productTitle", "productDescription", "images", "price"]),
+  validateBody([
+    "productTitle",
+    "productDescription",
+    "images",
+    "price",
+    "productPoints",
+  ]),
 
   async (req, res) => {
     const errors = errorValidation(req, res);
@@ -167,6 +173,7 @@ exports.addProduct = [
         seller: req.user._id,
         productTitle: req.body.productTitle,
         productDescription: req.body.productDescription,
+        productPoints: req.body.productPoints,
         images: req.body.images,
         price: req.body.price,
       });
@@ -187,6 +194,7 @@ exports.updateProduct = [
     "productId",
     "productTitle",
     "productDescription",
+    "productPoints",
     "images",
     "price",
   ]),
@@ -209,6 +217,7 @@ exports.updateProduct = [
       }
       product.productTitle = req.body.productTitle;
       product.productDescription = req.body.productDescription;
+      product.productPoints = req.body.productPoints;
       product.images = req.body.images;
       product.price = req.body.price;
 
