@@ -66,6 +66,7 @@ exports.updateMe = async (req, res) => {
 exports.uploadFiles = [
   upload.array("files"),
   async (req, res) => {
+    console.log(req.files);
     let files = req.files;
     let responseData = [];
     files.map((file) => {
@@ -94,17 +95,20 @@ exports.uploadFiles = [
           throwErrorMessage(err, res);
         }
         responseData.push(data);
-        if (responseData.length === files.length) {
+        if (responseData && responseData.length === files.length) {
           return res.status(200).json({
             status: true,
             message: "files uploaded successfully",
             data: responseData,
           });
         }
-        return res.status(403).json({
-          status: false,
-          message: "something went wrong, please try again later",
-        });
+
+        if (responseData && responseData.length === 0) {
+          return res.status(403).json({
+            status: false,
+            message: "something went wrong, please try again later",
+          });
+        }
       });
     });
   },
