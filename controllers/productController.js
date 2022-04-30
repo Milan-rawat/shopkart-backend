@@ -6,6 +6,38 @@ const {
   throwErrorMessage,
 } = require("../utils/errorHelper");
 
+exports.getRandomProducts = async (req, res) => {
+  try {
+    let limit = parseInt(req.query.limit) || 10;
+
+    if (limit > 100 || limit < 1) {
+      return res.status(400).json({
+        status: "fail",
+        message: "limit must be 1-100",
+      });
+    }
+    let within = new Date();
+    within.setMonth(new Date().getMonth() - 3);
+    const products = await Product.aggregate([
+      { $match: { createdAt: { $gte: within } } },
+      { $sample: { size: limit } },
+    ]);
+
+    res.status(200).json({
+      status: "success",
+      totalLimit: limit,
+      totalGet: products.length,
+      products: products,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "fail",
+      message: "Something went wrong! Try again later",
+    });
+  }
+};
+
 exports.searchProducts = [
   async (req, res) => {
     try {

@@ -5,6 +5,7 @@ const { checkPermission } = require("../middlewares/checkPermission");
 const router = Router();
 
 router.get("/searchProducts", productController.searchProducts);
+router.get("/getRandomProducts", productController.getRandomProducts);
 
 router.get(
   "/getMyProducts",
