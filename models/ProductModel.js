@@ -27,5 +27,11 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+productSchema.pre(/^find/, function (next) {
+  // this points to current query
+  this.populate({ path: "seller" });
+  next();
+});
+
 const Product = mongoose.model("Product", productSchema);
 module.exports = Product;

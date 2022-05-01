@@ -46,12 +46,6 @@ const shopperSchema = new mongoose.Schema(
   }
 );
 
-shopperSchema.pre(/^find/, function (next) {
-  // this points to current query
-  this.find({ active: { $ne: false } });
-  next();
-});
-
 shopperSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 

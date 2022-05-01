@@ -211,10 +211,9 @@ exports.changeQuantity = [
 
 exports.getMyCart = async (req, res) => {
   try {
-    const cart = (await Cart.findOne({ shopper: req.user._id }).populate([
-      { path: "items.product" },
-      { path: "items.product" },
-    ])) || { items: [] };
+    const cart = (await Cart.findOne({ shopper: req.user._id }).populate({
+      path: "items.product",
+    })) || { items: [] };
 
     res.status(200).json({
       status: true,
