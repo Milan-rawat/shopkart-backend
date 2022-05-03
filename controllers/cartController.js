@@ -188,7 +188,7 @@ exports.changeQuantity = [
           return res.status(200).json({
             status: true,
             message: "Quantity changed!",
-            cart: cart,
+            cart: cart.items[index],
           });
         }
         if (!present) {
