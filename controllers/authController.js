@@ -29,7 +29,8 @@ exports.register = [
       return null;
     }
     try {
-      const { fullName, email, password, profilePicture, isSeller } = req.body;
+      const { fullName, password, profilePicture, isSeller } = req.body;
+      let email = req.body.email.toLowerCase();
 
       let Model = Shopper;
       if (isSeller) {
