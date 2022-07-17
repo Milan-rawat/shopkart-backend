@@ -37,12 +37,18 @@ exports.register = [
         Model = Seller;
       }
 
-      const user = await Model.findOne({ email: email.toLowerCase() });
+      const user = await Model.findOne({ email: email });
 
       if (user) {
         res.status(409).json({
           status: false,
           message: "Email or Phone already exists! Use different",
+        });
+      }
+      if (!email.includes("@")) {
+        return res.status(400).json({
+          status: false,
+          message: "Not a Valid email!",
         });
       } else {
         let creatingUser = {
