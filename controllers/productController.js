@@ -16,10 +16,10 @@ exports.getRandomProducts = async (req, res) => {
         message: "limit must be 1-100",
       });
     }
-    let within = new Date();
-    within.setMonth(new Date().getMonth() - 3);
+    // let within = new Date();
+    // within.setMonth(new Date().getMonth() - 3);
     const products = await Product.aggregate([
-      { $match: { createdAt: { $gte: within } } },
+      // { $match: { createdAt: { $gte: within } } },
       { $sample: { size: limit } },
     ]);
 
